@@ -20,9 +20,9 @@ class CampaignDetailPage extends StatefulWidget {
 
   @override
   CampaignDetailPageState createState() => CampaignDetailPageState(
-      // userId: userId,
-      // categoryId: categoryId,
-      // locationId: locationId,
+        userId: userId,
+        categoryId: categoryId,
+        locationId: locationId,
       );
 }
 
