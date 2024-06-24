@@ -19,6 +19,7 @@ class CampaignDetailPage extends StatefulWidget {
   });
 
   @override
+  // ignore: no_logic_in_create_state
   CampaignDetailPageState createState() => CampaignDetailPageState(
         userId: userId,
         categoryId: categoryId,
