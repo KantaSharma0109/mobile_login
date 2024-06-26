@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:mobile_login/add_campaign_page/location_list_page.dart'; // Import the LocationListPage
+// import 'package:mobile_login/add_campaign_page/location_list_page.dart'; // Import the LocationListPage
+import 'package:mobile_login/add_campaign_page/flex_selection_page.dart';
 
 class CampaignListPage extends StatefulWidget {
   // const CampaignListPage({super.key});
@@ -63,7 +64,9 @@ class CampaignListPageState extends State<CampaignListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LocationListPage(
+                        // builder: (context) => LocationListPage(
+
+                        builder: (context) => FlexSelectionPage(
                           categoryId: category['id'],
                           categoryName: category['categoryname'],
                           userId: userId, // Pass the userId here

@@ -10,12 +10,16 @@ class LocationListPage extends StatefulWidget {
   final int categoryId;
   final String categoryName;
   final String? userId;
+  final bool? flexSelected; // Yes or No selection
+  final String? flexType; // Normal or Black
 
   const LocationListPage({
     super.key,
     required this.categoryId,
     required this.categoryName,
     this.userId,
+    this.flexSelected,
+    this.flexType,
   });
 
   @override
@@ -85,6 +89,7 @@ class LocationListPageState extends State<LocationListPage> {
             //   'Location ID: $locationId', // Display Location ID
             //   style: const TextStyle(fontSize: 14, color: Colors.grey),
             // ),
+
             const SizedBox(height: 5),
             Text(
               title, // Use empty string if title is null
@@ -122,6 +127,8 @@ class LocationListPageState extends State<LocationListPage> {
                             imagePath: imagePath,
                             categoryId: widget.categoryId,
                             locationId: locationId,
+                            flexSelected: widget.flexSelected,
+                            flexType: widget.flexType,
                           ),
                         );
                   });

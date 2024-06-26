@@ -56,17 +56,17 @@ class NavbarPageState extends State<NavbarPage> {
             label: 'Categories',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.payment),
             label: 'Payment',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.history),
+          //   label: 'History',
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: const Color.fromARGB(255, 50, 69, 118),
@@ -81,15 +81,16 @@ class NavbarPageState extends State<NavbarPage> {
         return HomePage(userId: _userId);
       case 1:
         return CampaignListPage(userId: _userId);
+
       case 2:
-        return CampaignDetailPage(userId: _userId);
-      case 3:
         return PaymentPage(
           userId: _userId,
           campaignId: null,
           totalAmount: 0.0,
           imageUrl: '',
         );
+      case 3:
+        return CampaignDetailPage(userId: _userId);
       case 4:
         return CampaignHistoryPage(userId: _userId);
 

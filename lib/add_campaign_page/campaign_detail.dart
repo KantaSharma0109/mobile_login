@@ -93,6 +93,9 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
           'startDate': startDates[i].toIso8601String(),
           'endDate': endDates[i].toIso8601String(),
           'campaignId': campaignId, // Include the campaign ID
+          'materialNeeded':
+              campaignDetails[i].flexSelected == true ? 'yes' : 'no',
+          'materialId': campaignDetails[i].flexType,
         }),
       );
 
