@@ -22,7 +22,15 @@ class ReceiptsPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Receipts for Campaign ID: $campaignId'),
+      // title: Text('Receipts for Campaign ID: $campaignId'),
+      title: DefaultTextStyle(
+        style: const TextStyle(
+          fontSize: 15, // Change the font size here
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        child: Text('All Receipts Of Campaign ID: $campaignId'),
+      ),
       content: FutureBuilder<List<dynamic>>(
         future: _fetchReceipts(),
         builder: (context, snapshot) {
@@ -33,27 +41,42 @@ class ReceiptsPopup extends StatelessWidget {
           } else {
             return SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Row(
                     children: [
-                      Expanded(child: Text('Campaign ID')),
-                      Expanded(child: Text('Amount')),
-                      Expanded(child: Text('Transaction Date')),
+                      // Expanded(child: Text('Campaign ID')),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          'Amount',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          'Transaction Date',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                      ),
                     ],
                   ),
                   const Divider(),
                   ...snapshot.data!.map((receipt) {
                     return Row(
                       children: [
-                        Expanded(
-                            child: Text(receipt['campaign_id'].toString())),
+                        // Expanded(
+                        // child: Text(receipt['campaign_id'].toString())),
                         Expanded(child: Text(receipt['amount'].toString())),
                         Expanded(
                             child:
                                 Text(receipt['transaction_date'].toString())),
                       ],
                     );
-                  }).toList(),
+                  }),
                 ],
               ),
             );

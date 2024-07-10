@@ -6,10 +6,15 @@ class LocationDetailPage extends StatefulWidget {
   final int locationId;
   final String? userId;
 
-  const LocationDetailPage({super.key, required this.locationId, this.userId});
+  const LocationDetailPage(
+      {super.key,
+      required this.locationId,
+      this.userId,
+      required String imageUrl});
 
   @override
   LocationDetailPageState createState() =>
+      // ignore: no_logic_in_create_state
       LocationDetailPageState(userId: userId);
 }
 
@@ -19,6 +24,7 @@ class LocationDetailPageState extends State<LocationDetailPage> {
   Map<String, dynamic>? _detail;
   bool _isLoading = true;
   bool _hasError = false;
+  bool _noDetails = false;
 
   @override
   void initState() {
@@ -40,7 +46,7 @@ class LocationDetailPageState extends State<LocationDetailPage> {
       } else {
         setState(() {
           _isLoading = false;
-          _hasError = true;
+          _noDetails = true;
         });
       }
     } else {
@@ -54,45 +60,55 @@ class LocationDetailPageState extends State<LocationDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _hasError
-              ? const Center(child: Text("No more details"))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (_detail?['location_image'] != null)
-                        Image.network(
-                          _detail!['location_image'],
-                          width: double.infinity,
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
-                      const SizedBox(height: 10),
-                      _buildDetailRow("Country", _detail?['country']),
-                      _buildDetailRow("State", _detail?['state']),
-                      _buildDetailRow("City", _detail?['city']),
-                      _buildDetailRow("Media", _detail?['media']),
-                      _buildDetailRow("Height", _detail?['height']),
-                      _buildDetailRow("Width", _detail?['width']),
-                      _buildDetailRow("Area", _detail?['area']),
-                      _buildDetailRow("Traffic From", _detail?['traffic_from']),
-                      _buildDetailRow("Traffic To", _detail?['traffic_to']),
-                      _buildDetailRow("Material", _detail?['material']),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Close"),
-                      ),
-                    ],
-                  ),
-                ),
-    );
+    if (_isLoading) {
+      return const Dialog(
+        child: Center(child: CircularProgressIndicator()),
+      );
+    } else if (_hasError) {
+      return const Dialog(
+        child:
+            Center(child: Text("An error occurred. Please try again later.")),
+      );
+    } else if (_noDetails) {
+      return AlertDialog(
+        content: const Text("This location does not have more details."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the alert dialog
+              Navigator.pop(context); // Close the LocationDetailPage
+            },
+            child: const Text("Close"),
+          ),
+        ],
+      );
+    } else {
+      return Dialog(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              _buildDetailRow("Country", _detail?['country']),
+              _buildDetailRow("State", _detail?['state']),
+              _buildDetailRow("Height", _detail?['height']),
+              _buildDetailRow("Width", _detail?['width']),
+              _buildDetailRow("Area", _detail?['area']),
+              _buildDetailRow("Traffic From", _detail?['traffic_from']),
+              _buildDetailRow("Traffic To", _detail?['traffic_to']),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Close"),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   Widget _buildDetailRow(String title, String? value) {
@@ -100,7 +116,7 @@ class LocationDetailPageState extends State<LocationDetailPage> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             width: 100,
             child: Text(
               "$title:",

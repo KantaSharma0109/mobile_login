@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_login/add_campaign_page/campaign_detail.dart';
 import 'dart:convert';
 import 'package:mobile_login/add_campaign_page/location_detail_page.dart';
 import 'package:mobile_login/model/campaign_data.dart';
@@ -10,16 +9,12 @@ class LocationListPage extends StatefulWidget {
   final int categoryId;
   final String categoryName;
   final String? userId;
-  final bool? flexSelected; // Yes or No selection
-  final String? flexType; // Normal or Black
 
   const LocationListPage({
     super.key,
     required this.categoryId,
     required this.categoryName,
     this.userId,
-    this.flexSelected,
-    this.flexType,
   });
 
   @override
@@ -57,99 +52,234 @@ class LocationListPageState extends State<LocationListPage> {
     }
   }
 
-  Widget _buildLocationBox(BuildContext context, String title, String subtitle,
-      String imagePath, int locationId) {
+  Widget _buildLocationBox(
+    BuildContext context,
+    String title,
+    String subtitle,
+    String imagePath,
+    int locationId,
+    String cityName,
+    int cityId,
+  ) {
+    String imageUrl =
+        'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath';
+
     return GestureDetector(
       onTap: () {
         // Handle "More Details" action here
       },
       child: Container(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              imagePath, // Use empty string if imagePath is null
-              width: double.infinity,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 10),
-            // Text(
-            //   'Category ID: ${widget.categoryId}', // Display Category ID
-            //   style: const TextStyle(fontSize: 14, color: Colors.grey),
-            // ),
-            // const SizedBox(height: 5),
-            // Text(
-            //   'Location ID: $locationId', // Display Location ID
-            //   style: const TextStyle(fontSize: 14, color: Colors.grey),
-            // ),
-
-            const SizedBox(height: 5),
-            Text(
-              title, // Use empty string if title is null
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              subtitle, // Use empty string if subtitle is null
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Check if the selected structure already exists in the list
-                bool alreadyAdded = CampaignData().selectedStructures.any(
-                    (element) =>
-                        element.title == title &&
-                        element.subtitle == subtitle &&
-                        element.imagePath == imagePath);
-
-                if (alreadyAdded) {
-                  // Show a message indicating that the information is already added
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('This information is already added.'),
+            Row(
+              children: [
+                // Expanded(
+                //   flex: 1,
+                //   child: Container(
+                //     padding: const EdgeInsets.all(8),
+                //     color: Colors.grey[200],
+                //     child: Text(
+                //       subtitle,
+                //       style: const TextStyle(
+                //           fontSize: 14, fontWeight: FontWeight.bold),
+                //     ),
+                //   ),
+                // ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.grey[200],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
                     ),
-                  );
-                } else {
-                  // Add selected structure to campaign details
-                  setState(() {
-                    CampaignData().selectedStructures.add(
-                          AdvertisingStructure(
-                            title: title,
-                            subtitle: subtitle,
-                            imagePath: imagePath,
-                            categoryId: widget.categoryId,
-                            locationId: locationId,
-                            flexSelected: widget.flexSelected,
-                            flexType: widget.flexType,
-                          ),
-                        );
-                  });
-                }
-              },
-              child: const Text("Add to Campaign"),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LocationDetailPage(
-                      locationId: locationId,
-                      userId: widget.userId,
+                    child: Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                );
-              },
-              child: const Text("More Details"),
+                ),
+
+                const SizedBox(width: 10),
+                Expanded(
+                  flex: 1,
+                  // child: GestureDetector(
+                  //   onTap: () {
+                  //     showDialog(
+                  //       context: context,
+                  //       builder: (BuildContext context) {
+                  //         return Dialog(
+                  //           child: Column(
+                  //             mainAxisSize: MainAxisSize.min,
+                  //             children: [
+                  //               Image.network(
+                  //                 // imagePath,
+                  //                 imageUrl,
+                  //                 fit: BoxFit.cover,
+                  //               ),
+                  //               TextButton(
+                  //                 onPressed: () {
+                  //                   Navigator.of(context).pop();
+                  //                 },
+                  //                 child: const Text('Close'),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         );
+                  //       },
+                  //     );
+                  //   },
+                  //   child: Image.network(
+                  //     // imagePath,
+                  //     imageUrl,
+                  //     height: 50,
+                  //     width: 50,
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Close'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.network(
+                          imageUrl,
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Check if the selected structure already exists in the list
+                      bool alreadyAdded = CampaignData().selectedStructures.any(
+                          (element) =>
+                              element.title == title &&
+                              element.subtitle == subtitle &&
+                              element.imagePath == imagePath);
+
+                      if (alreadyAdded) {
+                        // Show a message indicating that the information is already added
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('This information is already added.'),
+                          ),
+                        );
+                      } else {
+                        // Add selected structure to campaign details
+                        setState(() {
+                          CampaignData().selectedStructures.add(
+                                AdvertisingStructure(
+                                  title: title,
+                                  subtitle: subtitle,
+                                  imagePath: imagePath,
+                                  categoryId: widget.categoryId,
+                                  locationId: locationId,
+                                  cityName: cityName,
+                                  cityId: cityId,
+                                  imageUrl:
+                                      'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath',
+                                ),
+                              );
+                        });
+                        // Show a confirmation message that the campaign is added
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Campaign added to cart.'),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text("Add Campaign"),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LocationDetailPage(
+                            locationId: locationId,
+                            userId: widget.userId,
+                            imageUrl: imageUrl,
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text("More Details"),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -162,23 +292,23 @@ class LocationListPageState extends State<LocationListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${widget.categoryName} Locations"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CampaignDetailPage(
-                    userId: userId,
-                    categoryId: widget.categoryId,
-                    locationId: null, // You can handle this accordingly
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.shopping_cart),
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => CampaignDetailPage(
+        //             userId: userId,
+        //             categoryId: widget.categoryId,
+        //             locationId: null, // You can handle this accordingly
+        //           ),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -187,12 +317,17 @@ class LocationListPageState extends State<LocationListPage> {
               itemBuilder: (context, index) {
                 final location = _locations[index];
                 final locationId = int.tryParse(location['id'].toString()) ?? 0;
+                final cityId =
+                    int.tryParse(location['city_id'].toString()) ?? 0;
+                final cityName = location['city_name'] ?? '';
                 return _buildLocationBox(
                   context,
                   widget.categoryName,
                   location['location_name'] ?? '',
                   location['location_image'] ?? '',
                   locationId,
+                  cityName,
+                  cityId,
                 );
               },
             ),

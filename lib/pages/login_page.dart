@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage>
 
   String _role = '';
   String _userId = '';
+  String _userName = ''; // Variable to hold fetched user name
 
   Future<void> checkNumberExists(String phoneNumber) async {
     try {
@@ -35,10 +36,14 @@ class _LoginPageState extends State<LoginPage>
         var response = jsonDecode(res.body);
         if (response["success"] == true) {
           _role = response["role"];
-          _userId = response["user_id"]; // Capture user ID
+          _userId = response["user_id"];
+          _userName =
+              response["user_name"]; // Capture user name // Capture user ID
           // Save the user ID locally
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('user_id', _userId);
+
+          await prefs.setString('user_name', _userName);
           print(response);
 
           sendOtp();
@@ -62,9 +67,9 @@ class _LoginPageState extends State<LoginPage>
         const SnackBar(
           content: Text(
             "Error in sending OTP",
-            style: TextStyle(color: Colors.white),
+            // style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: Colors.red,
+          // backgroundColor: Colors.red,
         ),
       ),
       nextStep: () {
@@ -239,10 +244,10 @@ class _LoginPageState extends State<LoginPage>
                           checkNumberExists(_phoneController.text);
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow,
-                        foregroundColor: Colors.black,
-                      ),
+                      // style: ElevatedButton.styleFrom(
+                      //   backgroundColor: Colors.yellow,
+                      //   // foregroundColor: Colors.black,
+                      // ),
                       child: const Text("Send OTP"),
                     ),
                   )
