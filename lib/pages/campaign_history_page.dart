@@ -154,6 +154,8 @@ class CampaignHistoryPageState extends State<CampaignHistoryPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            _buildItem('Campaign ID',
+                                campaign['campaign_id'].toString()),
                             _buildItem(
                                 'Category', '${campaign['categoryname']}'),
                             _buildItem(

@@ -84,28 +84,38 @@ class LocationDetailPageState extends State<LocationDetailPage> {
       );
     } else {
       return Dialog(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              _buildDetailRow("Country", _detail?['country']),
-              _buildDetailRow("State", _detail?['state']),
-              _buildDetailRow("Height", _detail?['height']),
-              _buildDetailRow("Width", _detail?['width']),
-              _buildDetailRow("Area", _detail?['area']),
-              _buildDetailRow("Traffic From", _detail?['traffic_from']),
-              _buildDetailRow("Traffic To", _detail?['traffic_to']),
-              const SizedBox(height: 10),
-              ElevatedButton(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    _buildDetailRow("Country", _detail?['country']),
+                    _buildDetailRow("State", _detail?['state']),
+                    _buildDetailRow("Height", _detail?['height']),
+                    _buildDetailRow("Width", _detail?['width']),
+                    _buildDetailRow("Area", _detail?['area']),
+                    _buildDetailRow("Traffic From", _detail?['traffic_from']),
+                    _buildDetailRow("Traffic To", _detail?['traffic_to']),
+                    // const SizedBox(height: 10),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              child: IconButton(
+                icon: const Icon(Icons.close),
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Close"),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }

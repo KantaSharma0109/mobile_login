@@ -64,225 +64,210 @@ class LocationListPageState extends State<LocationListPage> {
     String imageUrl =
         'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath';
 
-    return GestureDetector(
-      onTap: () {
-        // Handle "More Details" action here
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                // Expanded(
-                //   flex: 1,
-                //   child: Container(
-                //     padding: const EdgeInsets.all(8),
-                //     color: Colors.grey[200],
-                //     child: Text(
-                //       subtitle,
-                //       style: const TextStyle(
-                //           fontSize: 14, fontWeight: FontWeight.bold),
-                //     ),
-                //   ),
-                // ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.grey[200],
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 3,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // First Row - Image
+          Row(
+            children: [
+              Expanded(
+                flex: 7,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    imageUrl,
+                    height: 150,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          // Second Row - Subtitle
+
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       flex: 12,
+          //       child: Container(
+          //         padding: const EdgeInsets.all(8),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(5),
+          //           color: Colors.white,
+          //           boxShadow: [
+          //             BoxShadow(
+          //               color: Colors.grey.withOpacity(0.5),
+          //               spreadRadius: 3,
+          //               blurRadius: 5,
+          //               offset: const Offset(0, 3),
+          //             ),
+          //           ],
+          //         ),
+          //         child: Text(
+          //           subtitle,
+          //           style: const TextStyle(
+          //             fontSize: 14,
+          //             fontWeight: FontWeight.bold,
+          //           ),
+          //           overflow: TextOverflow.ellipsis, // Add this line
+          //           maxLines: 1, // Add this line
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 30),
+                          child: Text(
+                            subtitle,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0.0,
+                          child: IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
                         ),
                       ],
                     ),
-                    child: Text(
-                      subtitle,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  );
+                },
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
                   ),
+                ],
+              ),
+              child: Text(
+                subtitle,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
-
-                const SizedBox(width: 10),
-                Expanded(
-                  flex: 1,
-                  // child: GestureDetector(
-                  //   onTap: () {
-                  //     showDialog(
-                  //       context: context,
-                  //       builder: (BuildContext context) {
-                  //         return Dialog(
-                  //           child: Column(
-                  //             mainAxisSize: MainAxisSize.min,
-                  //             children: [
-                  //               Image.network(
-                  //                 // imagePath,
-                  //                 imageUrl,
-                  //                 fit: BoxFit.cover,
-                  //               ),
-                  //               TextButton(
-                  //                 onPressed: () {
-                  //                   Navigator.of(context).pop();
-                  //                 },
-                  //                 child: const Text('Close'),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         );
-                  //       },
-                  //     );
-                  //   },
-                  //   child: Image.network(
-                  //     // imagePath,
-                  //     imageUrl,
-                  //     height: 50,
-                  //     width: 50,
-                  //     fit: BoxFit.cover,
-                  //   ),
-                  // ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Dialog(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image.network(
-                                    imageUrl,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Close'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.network(
-                          imageUrl,
-                          height: 50,
-                          width: 50,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Check if the selected structure already exists in the list
-                      bool alreadyAdded = CampaignData().selectedStructures.any(
-                          (element) =>
-                              element.title == title &&
-                              element.subtitle == subtitle &&
-                              element.imagePath == imagePath);
+          ),
 
-                      if (alreadyAdded) {
-                        // Show a message indicating that the information is already added
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('This information is already added.'),
-                          ),
-                        );
-                      } else {
-                        // Add selected structure to campaign details
-                        setState(() {
-                          CampaignData().selectedStructures.add(
-                                AdvertisingStructure(
-                                  title: title,
-                                  subtitle: subtitle,
-                                  imagePath: imagePath,
-                                  categoryId: widget.categoryId,
-                                  locationId: locationId,
-                                  cityName: cityName,
-                                  cityId: cityId,
-                                  imageUrl:
-                                      'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath',
-                                ),
-                              );
-                        });
-                        // Show a confirmation message that the campaign is added
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Campaign added to cart.'),
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text("Add Campaign"),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LocationDetailPage(
-                            locationId: locationId,
-                            userId: widget.userId,
-                            imageUrl: imageUrl,
-                          ),
+          const SizedBox(height: 10),
+          // Third Row - Buttons
+          Row(
+            children: [
+              Expanded(
+                flex: 6,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Check if the selected structure already exists in the list
+                    bool alreadyAdded = CampaignData().selectedStructures.any(
+                        (element) =>
+                            element.title == title &&
+                            element.subtitle == subtitle &&
+                            element.imagePath == imagePath);
+
+                    if (alreadyAdded) {
+                      // Show a message indicating that the information is already added
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('This information is already added.'),
                         ),
                       );
-                    },
-                    child: const Text("More Details"),
+                    } else {
+                      // Add selected structure to campaign details
+                      setState(() {
+                        CampaignData().selectedStructures.add(
+                              AdvertisingStructure(
+                                title: title,
+                                subtitle: subtitle,
+                                imagePath: imagePath,
+                                categoryId: widget.categoryId,
+                                locationId: locationId,
+                                cityName: cityName,
+                                cityId: cityId,
+                                imageUrl:
+                                    'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath',
+                              ),
+                            );
+                      });
+                      // Show a confirmation message that the campaign is added
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Campaign added to cart.'),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    "Add To Campaign",
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 6,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => LocationDetailPage(
+                        locationId: locationId,
+                        userId: widget.userId,
+                        imageUrl: imageUrl,
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "More Details",
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -290,26 +275,26 @@ class LocationListPageState extends State<LocationListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("${widget.categoryName} Locations"),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.shopping_cart),
-        //     onPressed: () {
-        //       Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => CampaignDetailPage(
-        //             userId: userId,
-        //             categoryId: widget.categoryId,
-        //             locationId: null, // You can handle this accordingly
-        //           ),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ],
-      ),
+      // appBar: AppBar(
+      //   title: Text("${widget.categoryName} Locations"),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.shopping_cart),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => CampaignDetailPage(
+      //               userId: userId,
+      //               categoryId: widget.categoryId,
+      //               locationId: null, // You can handle this accordingly
+      //             ),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(

@@ -1,129 +1,13 @@
-// import 'package:flutter/material.dart';
-// import 'package:mobile_login/controllers/auth_service.dart';
-// import 'package:mobile_login/pages/login_page.dart';
-// import 'package:mobile_login/pages/customer_page.dart';
-
-// class HomePage extends StatelessWidget {
-//   // const HomePage({super.key});
-
-//   final String? userId;
-
-//   const HomePage({super.key, this.userId});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("HomePage"),
-//         automaticallyImplyLeading: false,
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text(
-//               'User ID: ${userId ?? "No user ID"}', // Display the user ID
-//               style: TextStyle(fontSize: 18),
-//             ),
-//             const SizedBox(
-//               height: 20,
-//             ),
-//             const Text("Welcome user to this app"),
-//             const SizedBox(
-//               height: 20,
-//             ),
-//             OutlinedButton(
-//                 onPressed: () {
-//                   AuthService.logout();
-//                   Navigator.pushReplacement(
-//                       context,
-//                       MaterialPageRoute(
-//                           builder: (context) => const LoginPage()));
-//                 },
-//                 child: const Text("Logout")),
-//             const SizedBox(
-//               height: 20,
-//             ),
-//             ElevatedButton(
-//               onPressed: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                       builder: (context) => CustomerPage(userId: userId)),
-//                 );
-//               },
-//               child: const Text('Customer Page'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'package:mobile_login/pages/customer_page.dart';
-// import 'package:mobile_login/home_page_ui/home_slider.dart';
-
-// class HomePage extends StatelessWidget {
-//   final String? userId;
-//   final String? userName;
-
-//   const HomePage({
-//     super.key,
-//     this.userId,
-//     this.userName,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Welcome, ${userName ?? "No user Name"}',
-//           style: const TextStyle(fontSize: 18),
-//         ),
-//       ),
-//       body: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           const HomeSlider(),
-//           const SizedBox(height: 20),
-//           // Text(
-//           //   'User ID: ${userId ?? "No user ID"}',
-//           //   style: const TextStyle(fontSize: 18),
-//           // ),
-//           // const SizedBox(height: 20),
-//           // const Text(
-//           //   "Welcome user to this app",
-//           //   textAlign: TextAlign.center,
-//           // ),
-//           const SizedBox(height: 20),
-//           Center(
-//             child: ElevatedButton(
-//               onPressed: () {
-//                 Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => CustomerPage(userId: userId),
-//                   ),
-//                 );
-//               },
-//               child: const Text('Customer Page'),
-//             ),
-//           ),
-
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:mobile_login/pages/customer_page.dart';
 import 'package:mobile_login/home_page_ui/home_slider.dart';
 
-class HomePage extends StatelessWidget {
+import 'package:mobile_login/pages/navbar.dart'; // Import CityListPage
+
+class HomePage extends StatefulWidget {
   final String? userId;
   final String? userName;
 
@@ -134,100 +18,256 @@ class HomePage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0, // Remove the gray line
-        // backgroundColor: Colors.black,
-        title: Text(
-          'Welcome, ${userName ?? "No user Name"}',
-          style: const TextStyle(fontSize: 18),
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<dynamic> _featuredLocations = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchFeaturedLocations();
+  }
+
+  Future<void> _fetchFeaturedLocations() async {
+    final response = await http.get(Uri.parse(
+        "http://192.168.29.202:8080/mobilelogin_api/featured_locations.php"));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> locations = json.decode(response.body);
+      setState(() {
+        _featuredLocations = locations;
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      throw Exception('Failed to load featured locations');
+    }
+  }
+
+  Widget _buildLocationBox(BuildContext context, String title, String subtitle,
+      String locationName, String imagePath, String cityId) {
+    String imageUrl =
+        'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath';
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          // MaterialPageRoute(
+          //   builder: (context) => CityListPage(userId: widget.userId),
+          // ),
+          MaterialPageRoute(
+            builder: (context) => NavbarPage(
+              userId: widget.userId,
+              initialIndex: 1,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const HomeSlider(),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CustomerPage(userId: userId, initialTabIndex: 0),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Check Your\nOrders',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CustomerPage(userId: userId, initialTabIndex: 1),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Check Your Quotations',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
+                  flex: 7,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      imageUrl,
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  flex: 12,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          subtitle,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          locationName,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   elevation: 0,
+      //   title: Text(
+      //     'Welcome, ${widget.userName ?? "No user Name"}',
+      //     style: const TextStyle(fontSize: 18),
+      //   ),
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const HomeSlider(),
+            const SizedBox(height: 20),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: GestureDetector(
+                    onTap: () {
+                      int initialTabIndex = index == 0 ? 0 : 1;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CustomerPage(
+                              userId: widget.userId,
+                              initialTabIndex: initialTabIndex),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Text(
+                                index == 0
+                                    ? 'Check Your Orders'
+                                    : 'Check Your Quotations',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 22),
+              child: Text(
+                'Featured Products',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 10),
+            _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _featuredLocations.length,
+                    itemBuilder: (context, index) {
+                      final location = _featuredLocations[index];
+                      return _buildLocationBox(
+                        context,
+                        location['location_name'] ?? '',
+                        location['city_name'] ?? '',
+                        location['location_name'] ?? '',
+                        location['location_image'] ?? '',
+                        location['city_id'], // Pass city ID
+                      );
+                    },
+                  ),
+          ],
+        ),
       ),
     );
   }

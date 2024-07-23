@@ -147,7 +147,7 @@ import 'dart:convert';
 import 'package:mobile_login/payment/receipts_popup.dart';
 
 class PaymentsSummaryPage extends StatefulWidget {
-  final String userId;
+  final String? userId;
 
   const PaymentsSummaryPage({super.key, required this.userId});
 

@@ -5,6 +5,7 @@ import 'package:mobile_login/controllers/firebase_options.dart';
 // import 'package:mobile_login/pages/home_page.dart';
 import 'package:mobile_login/pages/login_page.dart';
 import 'package:mobile_login/pages/navbar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +24,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+          ),
           useMaterial3: true,
+          textTheme: GoogleFonts.latoTextTheme(),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              textStyle: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+            ),
+          ),
         ),
         home: const CheckUserLoggedInOrNot());
   }
@@ -42,8 +55,10 @@ class _CheckUserLoggedInOrNotState extends State<CheckUserLoggedInOrNot> {
   void initState() {
     AuthService.isLoggedIn().then((value) {
       if (value) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const NavbarPage()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const NavbarPage(initialIndex: 0)));
       } else {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const LoginPage()));

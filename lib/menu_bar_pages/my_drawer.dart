@@ -3,6 +3,7 @@ import 'package:mobile_login/controllers/auth_service.dart';
 import 'package:mobile_login/menu_bar_pages/profile_page.dart';
 import 'package:mobile_login/pages/campaign_history_page.dart';
 import 'package:mobile_login/pages/login_page.dart';
+import 'package:mobile_login/payment/payments_summary.dart';
 
 class MyDrawer extends StatelessWidget {
   final String? userId;
@@ -73,6 +74,19 @@ class MyDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfilePage(userId: userId),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.payments_sharp),
+              title: const Text('Payments History'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PaymentsSummaryPage(userId: userId),
                   ),
                 );
               },

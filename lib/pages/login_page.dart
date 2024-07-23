@@ -125,7 +125,8 @@ class _LoginPageState extends State<LoginPage>
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const NavbarPage()),
+                                builder: (context) =>
+                                    const NavbarPage(initialIndex: 0)),
                           );
                         }
                       }

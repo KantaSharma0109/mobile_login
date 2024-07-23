@@ -160,100 +160,155 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
             child: ListView.builder(
               itemCount: campaignDetails.length,
               itemBuilder: (context, index) {
-                return Center(
-                  child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 2),
+                return Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Title, City Name, and Delete Icon
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Colors.grey),
                           ),
-                        ]),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                        ),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      campaignDetails[index].imageUrl),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 20),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          campaignDetails[index].title,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(Icons.delete),
-                                        onPressed: () =>
-                                            _removeCampaignDetail(index),
-                                      ),
-                                    ],
+                                  Text(
+                                    campaignDetails[index].title,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                   Text(
                                     campaignDetails[index].cityName,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    campaignDetails[index].subtitle,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _removeCampaignDetail(index),
+                            ),
                           ],
                         ),
-                        const SizedBox(height: 10),
-                        const Center(
-                          child: Text(
-                            "Choose Date",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                      // Image
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Container(
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                              image:
+                                  NetworkImage(campaignDetails[index].imageUrl),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        Row(
+                      ),
+                      // Subtitle
+                      // Container(
+                      //   padding: const EdgeInsets.all(10),
+                      //   child: Text(
+                      //     campaignDetails[index].subtitle,
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 12,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 3,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                campaignDetails[index].subtitle,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow:
+                                    TextOverflow.ellipsis, // Add this line
+                                maxLines: 1, // Add this line
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Choose Date
+                      // Container(
+                      //   padding: const EdgeInsets.only(top: 10),
+                      //   child: const Center(
+                      //     child: Text(
+                      //       "Choose Date",
+                      //       style: TextStyle(
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // // Start and End Date Options
+                      const SizedBox(height: 10),
+                      Container(
+                        // padding: const EdgeInsets.all(5),
+                        // decoration: BoxDecoration(
+                        //   border: Border(
+                        //     bottom: BorderSide(color: Colors.grey),
+                        //   ),
+                        // ),
+
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text("Start Date:",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 5),
+                                const Text(
+                                  "Start Date:",
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                // const SizedBox(height: 2),
                                 TextButton(
                                   onPressed: () =>
                                       _selectStartDate(context, index),
@@ -272,10 +327,11 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const Text("End Date:",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 5),
+                                const Text(
+                                  "End Date:",
+                                  style: TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                                // const SizedBox(height: 5),
                                 TextButton(
                                   onPressed: () =>
                                       _selectEndDate(context, index),
@@ -293,99 +349,14 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
                             ),
                           ],
                         ),
-                        // const Divider(),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.end,
-                        //   children: [
-                        //     IconButton(
-                        //       icon: const Icon(Icons.delete),
-                        //       onPressed: () => _removeCampaignDetail(index),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 );
               },
             ),
           ),
-          // Stack(
-          //   children: [
-          //     Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         const Padding(
-          //           padding: EdgeInsets.only(
-          //               left: 30, top: 5), // Adjust left padding as needed
-          //           child: Text(
-          //             "Flex Needed: ",
-          //             style:
-          //                 TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          //           ),
-          //         ),
-          //         // const SizedBox(height: 3),
-          //         Row(
-          //           children: [
-          //             const SizedBox(width: 20), // Adjust spacing as needed
-          //             DropdownButton<String>(
-          //               value: flexNeeded ? 'Yes' : 'No',
-          //               onChanged: (value) {
-          //                 setState(() {
-          //                   flexNeeded = value == 'Yes';
-          //                   _saveFlexOptionToPreferences(); // Save flexNeeded state
-          //                 });
-          //               },
-          //               items: ['No', 'Yes'].map((String value) {
-          //                 return DropdownMenuItem<String>(
-          //                   value: value,
-          //                   child: Text(
-          //                     value,
-          //                     style: const TextStyle(
-          //                       fontWeight: FontWeight.w400,
-          //                     ),
-          //                   ),
-          //                 );
-          //               }).toList(),
-          //             ),
-          //             if (flexNeeded)
-          //               DropdownButton<String>(
-          //                 value: flexOption,
-          //                 onChanged: (value) {
-          //                   setState(() {
-          //                     flexOption = value!;
-          //                     _saveFlexOptionToPreferences(); // Save flexOption state
-          //                   });
-          //                 },
-          //                 items: ['Normal', 'Black'].map((String value) {
-          //                   return DropdownMenuItem<String>(
-          //                     value: value,
-          //                     child: Text(
-          //                       value,
-          //                       style: const TextStyle(
-          //                         fontWeight: FontWeight.w400,
-          //                       ),
-          //                     ),
-          //                   );
-          //                 }).toList(),
-          //               ),
-          //           ],
-          //         ),
-          //       ],
-          //     ),
-          //     Positioned(
-          //       top: 0,
-          //       right: 0,
-          //       child: Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: ElevatedButton(
-          //           onPressed: _getQuote,
-          //           child: const Text("Get Quote"),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+
           Stack(
             children: [
               Container(
@@ -394,7 +365,7 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12.0),
+                  borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -408,18 +379,23 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(left: 8.0, bottom: 10),
+                      padding: EdgeInsets.only(left: 15.0, bottom: 3),
                       child: Text(
                         "Flex Needed:",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                     Row(
                       children: [
-                        const SizedBox(width: 8), // Adjust spacing as needed
+                        const SizedBox(
+                          width: 4,
+                        ), // Adjust spacing as needed
                         DropdownButton<String>(
                           value: flexNeeded ? 'Yes' : 'No',
+                          dropdownColor: Colors.white,
                           onChanged: (value) {
                             setState(() {
                               flexNeeded = value == 'Yes';
@@ -441,9 +417,10 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
                         ),
                         if (flexNeeded)
                           Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
+                            padding: const EdgeInsets.only(left: 14.0),
                             child: DropdownButton<String>(
                               value: flexOption,
+                              dropdownColor: Colors.white,
                               onChanged: (value) {
                                 setState(() {
                                   flexOption = value!;
@@ -474,12 +451,14 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
                 right: 25,
                 child: ElevatedButton(
                   onPressed: _getQuote,
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                  // style: ElevatedButton.styleFrom(
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(8),
+                  //   ),
+                  // ),
+                  child: const Text(
+                    "Get Quote",
                   ),
-                  child: const Text("Get Quote"),
                 ),
               ),
             ],
