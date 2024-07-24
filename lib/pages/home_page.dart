@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const HomeSlider(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 3,
-                            blurRadius: 5,
+                            blurRadius: 2,
                             offset: const Offset(0, 3),
                           ),
                         ],
@@ -239,12 +239,18 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22),
+              padding: EdgeInsets.symmetric(
+                horizontal: 18.0,
+              ),
               child: Text(
                 'Featured Products',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
               ),
             ),
             const SizedBox(height: 10),

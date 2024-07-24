@@ -207,7 +207,7 @@ class _LoginPageState extends State<LoginPage>
                 children: [
                   const Text(
                     "Login an account",
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                   ),
                   const Text("Enter your phone Number to continue."),
                   const SizedBox(
@@ -249,7 +249,10 @@ class _LoginPageState extends State<LoginPage>
                       //   backgroundColor: Colors.yellow,
                       //   // foregroundColor: Colors.black,
                       // ),
-                      child: const Text("Send OTP"),
+                      child: const Text(
+                        "Send OTP",
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   )
                 ],

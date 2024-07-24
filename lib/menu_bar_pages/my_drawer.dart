@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_login/controllers/auth_service.dart';
 import 'package:mobile_login/menu_bar_pages/profile_page.dart';
 import 'package:mobile_login/pages/campaign_history_page.dart';
+// import 'package:mobile_login/pages/customer_page.dart';
 import 'package:mobile_login/pages/login_page.dart';
 import 'package:mobile_login/payment/payments_summary.dart';
 
@@ -78,6 +79,38 @@ class MyDrawer extends StatelessWidget {
                 );
               },
             ),
+            // ListTile(
+            //   leading: const Icon(Icons.article),
+            //   title: const Text('Your Orders'),
+            //   onTap: () {
+            //     Navigator.pop(context); // Close the drawer
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => CustomerPage(
+            //           userId: userId,
+            //           initialTabIndex: 0, // Set to 0 for 'Order'
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
+            // ListTile(
+            //   leading: const Icon(Icons.request_quote),
+            //   title: const Text('Your Quotations'),
+            //   onTap: () {
+            //     Navigator.pop(context); // Close the drawer
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => CustomerPage(
+            //           userId: userId,
+            //           initialTabIndex: 1, // Set to 1 for 'Quotation'
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
             ListTile(
               leading: const Icon(Icons.payments_sharp),
               title: const Text('Payments History'),

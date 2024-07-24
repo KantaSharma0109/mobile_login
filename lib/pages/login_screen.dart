@@ -97,7 +97,10 @@ class _LoginPageState extends State<LoginPage> {
                   backgroundColor: const Color.fromARGB(189, 60, 3, 70),
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Send OTP'),
+                child: const Text(
+                  'Send OTP',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],

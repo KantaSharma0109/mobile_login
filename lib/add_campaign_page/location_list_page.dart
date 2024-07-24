@@ -56,13 +56,12 @@ class LocationListPageState extends State<LocationListPage> {
     BuildContext context,
     String title,
     String subtitle,
-    String imagePath,
+    List<String> imagePaths, // List of image paths
     int locationId,
     String cityName,
     int cityId,
   ) {
-    String imageUrl =
-        'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath';
+    PageController pageController = PageController();
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
@@ -82,63 +81,85 @@ class LocationListPageState extends State<LocationListPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // First Row - Image
-          Row(
+          // Image Section with PageView
+          Stack(
             children: [
-              Expanded(
-                flex: 7,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    imageUrl,
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+              SizedBox(
+                height: 150,
+                width: double.infinity,
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: imagePaths.length,
+                  itemBuilder: (context, index) {
+                    String imageUrl =
+                        'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[index]}';
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        imageUrl,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // Left button
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.chevron_left_rounded,
+                    color: Colors.black, // Set the color here
+                    size: 50.0,
                   ),
+                  onPressed: () {
+                    if (pageController.hasClients) {
+                      pageController.previousPage(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.easeInOut,
+                      );
+                    }
+                  },
+                ),
+              ),
+              // Right button
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.chevron_right_rounded,
+                    color: Colors.black, // Set the color here
+                    size: 50.0,
+                  ),
+                  onPressed: () {
+                    if (pageController.hasClients) {
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.easeInOut,
+                      );
+                    }
+                  },
                 ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          // Second Row - Subtitle
-
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       flex: 12,
-          //       child: Container(
-          //         padding: const EdgeInsets.all(8),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(5),
-          //           color: Colors.white,
-          //           boxShadow: [
-          //             BoxShadow(
-          //               color: Colors.grey.withOpacity(0.5),
-          //               spreadRadius: 3,
-          //               blurRadius: 5,
-          //               offset: const Offset(0, 3),
-          //             ),
-          //           ],
-          //         ),
-          //         child: Text(
-          //           subtitle,
-          //           style: const TextStyle(
-          //             fontSize: 14,
-          //             fontWeight: FontWeight.bold,
-          //           ),
-          //           overflow: TextOverflow.ellipsis, // Add this line
-          //           maxLines: 1, // Add this line
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          // Subtitle Section
           GestureDetector(
             onTap: () {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                     child: Stack(
                       children: [
                         Padding(
@@ -193,47 +214,43 @@ class LocationListPageState extends State<LocationListPage> {
               ),
             ),
           ),
-
           const SizedBox(height: 10),
-          // Third Row - Buttons
+          // Button Section
           Row(
             children: [
               Expanded(
                 flex: 6,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Check if the selected structure already exists in the list
                     bool alreadyAdded = CampaignData().selectedStructures.any(
                         (element) =>
                             element.title == title &&
                             element.subtitle == subtitle &&
-                            element.imagePath == imagePath);
+                            element.imagePath == imagePaths[0]);
 
                     if (alreadyAdded) {
-                      // Show a message indicating that the information is already added
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('This information is already added.'),
                         ),
                       );
                     } else {
-                      // Add selected structure to campaign details
                       setState(() {
                         CampaignData().selectedStructures.add(
                               AdvertisingStructure(
                                 title: title,
                                 subtitle: subtitle,
-                                imagePath: imagePath,
+                                imagePath:
+                                    imagePaths[0], // Use first image path
                                 categoryId: widget.categoryId,
                                 locationId: locationId,
                                 cityName: cityName,
                                 cityId: cityId,
                                 imageUrl:
-                                    'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath',
+                                    'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[0]}',
                               ),
                             );
                       });
-                      // Show a confirmation message that the campaign is added
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Campaign added to cart.'),
@@ -256,7 +273,8 @@ class LocationListPageState extends State<LocationListPage> {
                       builder: (BuildContext context) => LocationDetailPage(
                         locationId: locationId,
                         userId: widget.userId,
-                        imageUrl: imageUrl,
+                        imageUrl:
+                            'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[0]}',
                       ),
                     );
                   },
@@ -305,11 +323,15 @@ class LocationListPageState extends State<LocationListPage> {
                 final cityId =
                     int.tryParse(location['city_id'].toString()) ?? 0;
                 final cityName = location['city_name'] ?? '';
+                final List<String> imagePaths =
+                    List<String>.from(location['location_images'] ?? []);
+
                 return _buildLocationBox(
                   context,
                   widget.categoryName,
                   location['location_name'] ?? '',
-                  location['location_image'] ?? '',
+                  // location['location_image'] ?? '',
+                  imagePaths,
                   locationId,
                   cityName,
                   cityId,
