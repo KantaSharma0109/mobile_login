@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile_login/add_campaign_page/location_list_page.dart';
+// import 'package:mobile_login/add_campaign_page/location_list_page.dart';
 import 'dart:convert';
 import 'package:mobile_login/pages/customer_page.dart';
 import 'package:mobile_login/home_page_ui/home_slider.dart';
