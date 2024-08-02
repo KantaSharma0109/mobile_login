@@ -70,17 +70,46 @@ class LocationDetailPageState extends State<LocationDetailPage> {
             Center(child: Text("An error occurred. Please try again later.")),
       );
     } else if (_noDetails) {
-      return AlertDialog(
-        content: const Text("This location does not have more details."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Close the alert dialog
-              Navigator.pop(context); // Close the LocationDetailPage
-            },
-            child: const Text("Close"),
-          ),
-        ],
+      return Dialog(
+        //   content: const Text("This location does not have more details."),
+        //   actions: [
+        //     TextButton(
+        //       onPressed: () {
+        //         Navigator.pop(context); // Close the alert dialog
+        //         // Navigator.pop(context); // Close the LocationDetailPage
+        //       },
+        //       child: const Text("Close"),
+        //     ),
+        //   ],
+        // );
+        child: Stack(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10),
+                  Text(
+                    "This location does not have more details.",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+              ),
+            ),
+          ],
+        ),
       );
     } else {
       return Dialog(

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_login/add_campaign_page/location_list_page.dart';
 import 'dart:convert';
-
 import 'package:mobile_login/pages/customer_page.dart';
 import 'package:mobile_login/home_page_ui/home_slider.dart';
-
 import 'package:mobile_login/pages/navbar.dart'; // Import CityListPage
 
 class HomePage extends StatefulWidget {
@@ -49,8 +48,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _buildLocationBox(BuildContext context, String title, String subtitle,
-      String locationName, String imagePath, String cityId) {
+  Widget _buildLocationBox(
+    BuildContext context,
+    String title,
+    String subtitle,
+    String locationName,
+    String imagePath,
+    String cityId,
+    String categoryId,
+    String locationId,
+    String categoryName,
+  ) {
     String imageUrl =
         'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath';
 
@@ -67,6 +75,14 @@ class _HomePageState extends State<HomePage> {
               initialIndex: 1,
             ),
           ),
+
+          // MaterialPageRoute(
+          //   builder: (context) => LocationListPage(
+          //     categoryId: int.parse(categoryId),
+          //     categoryName: categoryName,
+          //     userId: widget.userId,
+          //   ),
+          // ),
         );
       },
       child: Container(
@@ -144,6 +160,16 @@ class _HomePageState extends State<HomePage> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
+                        // const SizedBox(height: 5),
+                        // Text(
+                        //   'Category: ${categoryName.isNotEmpty ? categoryName : 'N/A'}',
+                        //   style: const TextStyle(
+                        //     fontSize: 12,
+                        //     color: Colors.grey,
+                        //   ),
+                        //   overflow: TextOverflow.ellipsis,
+                        //   maxLines: 1,
+                        // ),
                       ],
                     ),
                   ),
@@ -245,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                 horizontal: 18.0,
               ),
               child: Text(
-                'Featured Products',
+                'Choose Your City',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -269,6 +295,9 @@ class _HomePageState extends State<HomePage> {
                         location['location_name'] ?? '',
                         location['location_image'] ?? '',
                         location['city_id'], // Pass city ID
+                        location['category_id'],
+                        location['id'],
+                        location['categoryname'] ?? '',
                       );
                     },
                   ),

@@ -5,6 +5,8 @@ import 'package:mobile_login/pages/campaign_history_page.dart';
 // import 'package:mobile_login/pages/customer_page.dart';
 import 'package:mobile_login/pages/login_page.dart';
 import 'package:mobile_login/payment/payments_summary.dart';
+import 'package:mobile_login/pages/help_feedback_page.dart'; // Adjust the import path if necessary
+import 'package:url_launcher/url_launcher.dart';
 
 class MyDrawer extends StatelessWidget {
   final String? userId;
@@ -32,7 +34,7 @@ class MyDrawer extends StatelessWidget {
               accountName: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 3),
                   Text(
                     userName ?? 'User Name',
                     style: const TextStyle(
@@ -44,24 +46,29 @@ class MyDrawer extends StatelessWidget {
                 ],
               ),
               currentAccountPicture: Container(
-                width: 90,
-                height: 90,
+                width: 120, // Adjust width as needed
+                height: 120, // Adjust height as needed
                 decoration: BoxDecoration(
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                      'https://img.freepik.com/free-photo/blue-user-icon-symbol-website-admin-social-login-element-concept-white-background-3d-rendering_56104-1217.jpg?w=1060&t=st=1719395095~exp=1719395695~hmac=7b5255aeb80442eaf7d164fd46e1ccef2d6e691e0f44610c804771368c1e2a09',
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
+                  color: Colors.white, // Background color of the container
+                  borderRadius: BorderRadius.circular(60.0), // Rounded corners
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
+                      color: Colors.black.withOpacity(0.5), // Shadow color
+                      spreadRadius: 2, // How much the shadow spreads
+                      blurRadius: 5, // How blurred the shadow is
+                      offset: const Offset(0, 3), // Position of the shadow
                     ),
                   ],
+                ),
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(60.0), // Rounded corners
+                    child: Image.asset(
+                      'assets/SNPublicity.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
               accountEmail: null,
@@ -141,13 +148,13 @@ class MyDrawer extends StatelessWidget {
               leading: const Icon(Icons.live_help_outlined),
               title: const Text('Help and Feedback'),
               onTap: () {
-                // Navigator.pop(context); // Close the drawer
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => CampaignHistoryPage(userId: userId),
-                //   ),
-                // );
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HelpFeedbackPage(userId: userId),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -159,7 +166,14 @@ class MyDrawer extends StatelessWidget {
                 'Rate Us',
                 style: TextStyle(color: Color.fromARGB(255, 201, 181, 1)),
               ),
-              onTap: () {},
+              onTap: () async {
+                const url = 'https://example.com'; // Change to your app's URL
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
             ),
             ListTile(
               leading: const Icon(

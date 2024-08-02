@@ -337,24 +337,37 @@ class OrderPageState extends State<OrderPage> {
   }
 
   Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text("You don't have any active campaigns."),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      CampaignHistoryPage(userId: widget.userId),
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("You don't have any active campaigns"),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            CampaignHistoryPage(userId: widget.userId),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Go to your previous campaign history",
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
-              );
-            },
-            child: const Text("Go to your previous campaign history"),
+              ],
+            ),
           ),
-          TextButton(
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -363,7 +376,6 @@ class OrderPageState extends State<OrderPage> {
                 //     ),
                 //   );
                 // },
-
                 MaterialPageRoute(
                   builder: (context) => NavbarPage(
                     userId: widget.userId,
@@ -372,10 +384,10 @@ class OrderPageState extends State<OrderPage> {
                 ),
               );
             },
-            child: const Text("Book New Campaign"),
+            child: const Text('Book New Campaign'),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

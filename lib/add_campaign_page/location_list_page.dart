@@ -40,6 +40,7 @@ class LocationListPageState extends State<LocationListPage> {
 
     if (response.statusCode == 200) {
       final List<dynamic> locations = json.decode(response.body);
+      print("Fetched locations: $locations");
       setState(() {
         _locations = locations;
         _isLoading = false;
@@ -60,6 +61,8 @@ class LocationListPageState extends State<LocationListPage> {
     int locationId,
     String cityName,
     int cityId,
+    int availableStatus, // Add availableStatus parameter
+    String? endDate, // Add endDate parameter
   ) {
     PageController pageController = PageController();
 
@@ -220,48 +223,77 @@ class LocationListPageState extends State<LocationListPage> {
             children: [
               Expanded(
                 flex: 6,
-                child: ElevatedButton(
-                  onPressed: () {
-                    bool alreadyAdded = CampaignData().selectedStructures.any(
-                        (element) =>
-                            element.title == title &&
-                            element.subtitle == subtitle &&
-                            element.imagePath == imagePaths[0]);
+                child: availableStatus == 1
+                    ? ElevatedButton(
+                        onPressed: () {
+                          bool alreadyAdded = CampaignData()
+                              .selectedStructures
+                              .any((element) =>
+                                  element.title == title &&
+                                  element.subtitle == subtitle &&
+                                  element.imagePath == imagePaths[0]);
 
-                    if (alreadyAdded) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('This information is already added.'),
-                        ),
-                      );
-                    } else {
-                      setState(() {
-                        CampaignData().selectedStructures.add(
-                              AdvertisingStructure(
-                                title: title,
-                                subtitle: subtitle,
-                                imagePath:
-                                    imagePaths[0], // Use first image path
-                                categoryId: widget.categoryId,
-                                locationId: locationId,
-                                cityName: cityName,
-                                cityId: cityId,
-                                imageUrl:
-                                    'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[0]}',
+                          if (alreadyAdded) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text('This information is already added.'),
                               ),
                             );
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Campaign added to cart.'),
+                          } else {
+                            setState(() {
+                              CampaignData().selectedStructures.add(
+                                    AdvertisingStructure(
+                                      title: title,
+                                      subtitle: subtitle,
+                                      imagePath:
+                                          imagePaths[0], // Use first image path
+                                      categoryId: widget.categoryId,
+                                      locationId: locationId,
+                                      cityName: cityName,
+                                      cityId: cityId,
+                                      imageUrl:
+                                          'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[0]}',
+                                    ),
+                                  );
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Campaign added to cart.'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text("Add To Campaign"),
+                      )
+                    : ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Not Available'),
+                              content: Text(
+                                endDate != null
+                                    ? 'End Date: $endDate'
+                                    : 'No end date available.',
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red, // Color for the button
+                          foregroundColor: Colors.white,
                         ),
-                      );
-                    }
-                  },
-                  child: const Text(
-                    "Add To Campaign",
-                  ),
-                ),
+                        child: const Text("Not Available"),
+                      ),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -278,9 +310,7 @@ class LocationListPageState extends State<LocationListPage> {
                       ),
                     );
                   },
-                  child: const Text(
-                    "More Details",
-                  ),
+                  child: const Text("View Details"),
                 ),
               ),
             ],
@@ -322,7 +352,10 @@ class LocationListPageState extends State<LocationListPage> {
                 final locationId = int.tryParse(location['id'].toString()) ?? 0;
                 final cityId =
                     int.tryParse(location['city_id'].toString()) ?? 0;
+                final availableStatus =
+                    int.tryParse(location['available_status'].toString()) ?? 0;
                 final cityName = location['city_name'] ?? '';
+                final endDate = location['end_date'] ?? '';
                 final List<String> imagePaths =
                     List<String>.from(location['location_images'] ?? []);
 
@@ -335,6 +368,8 @@ class LocationListPageState extends State<LocationListPage> {
                   locationId,
                   cityName,
                   cityId,
+                  availableStatus,
+                  endDate,
                 );
               },
             ),
