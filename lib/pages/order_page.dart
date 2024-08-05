@@ -28,7 +28,7 @@ class OrderPageState extends State<OrderPage> {
   Future<void> fetchQuotations() async {
     final response = await http.get(
       Uri.parse(
-          'http://192.168.29.202:8080/mobilelogin_api/fetch_order_data.php?userId=${widget.userId}'),
+          'http://192.168.29.203:8080/mobilelogin_api/fetch_order_data.php?userId=${widget.userId}'),
     );
 
     if (response.statusCode == 200) {
@@ -64,7 +64,7 @@ class OrderPageState extends State<OrderPage> {
     for (var entry in totalAmounts.entries) {
       await http.post(
         Uri.parse(
-            'http://192.168.29.202:8080/mobilelogin_api/update_customer_account.php'),
+            'http://192.168.29.203:8080/mobilelogin_api/update_customer_account.php'),
         body: {
           'userId': widget.userId!,
           'campaignId': entry.key,

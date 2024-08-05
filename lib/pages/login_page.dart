@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage>
   Future<void> checkNumberExists(String phoneNumber) async {
     try {
       String uri =
-          "http://192.168.29.202:8080/mobilelogin_api/check_number.php";
+          "http://192.168.29.203:8080/mobilelogin_api/check_number.php";
       var res = await http.post(Uri.parse(uri), body: {
         "mobile_number": phoneNumber,
       });
@@ -188,79 +188,119 @@ class _LoginPageState extends State<LoginPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/img1.png",
-              height: 150,
-              width: 300,
-              fit: BoxFit.contain,
+      body: LayoutBuilder(builder: (context, constraints) {
+        return SingleChildScrollView(
+            child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: constraints.maxHeight,
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Login an account",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Image.asset(
+                //   "assets/SNPublicity.png",
+                //   height: 150,
+                //   width: 300,
+                //   fit: BoxFit.contain,
+                // ),
+                Container(
+                  width: 230, // Adjust width as needed
+                  height: 230, // Adjust height as needed
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Background color of the container
+                    borderRadius:
+                        BorderRadius.circular(180.0), // Rounded corners
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5), // Shadow color
+                        spreadRadius: 2, // How much the shadow spreads
+                        blurRadius: 5, // How blurred the shadow is
+                        offset: const Offset(0, 3), // Position of the shadow
+                      ),
+                    ],
                   ),
-                  const Text("Enter your phone Number to continue."),
-                  const SizedBox(
-                    height: 20,
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(180.0), // Rounded corners
+                      child: Image.asset(
+                        'assets/SNPublicity.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        prefixText: "+91 ",
-                        labelText: "Enter your phone number",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32),
+                ),
+                // const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Login an account",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w700),
+                      ),
+                      const Text("Enter your phone Number to continue."),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            prefixText: "+91 ",
+                            labelText: "Enter your phone number",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.length != 10) {
+                              return "Invalid phone number";
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.length != 10) {
-                          return "Invalid phone number";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          checkNumberExists(_phoneController.text);
-                        }
-                      },
-                      // style: ElevatedButton.styleFrom(
-                      //   backgroundColor: Colors.yellow,
-                      //   // foregroundColor: Colors.black,
-                      // ),
-                      child: const Text(
-                        "Send OTP",
-                        style: TextStyle(fontSize: 18),
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              checkNumberExists(_phoneController.text);
+                            }
+                          },
+                          // style: ElevatedButton.styleFrom(
+                          //   backgroundColor: Colors.yellow,
+                          //   // foregroundColor: Colors.black,
+                          // ),
+                          child: const Text(
+                            "Send OTP",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        ));
+      }),
     );
   }
 }

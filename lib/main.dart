@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'SN Publicity',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
+            seedColor: const Color(0xFF3C4494),
           ),
           useMaterial3: true,
           textTheme: GoogleFonts.latoTextTheme(),

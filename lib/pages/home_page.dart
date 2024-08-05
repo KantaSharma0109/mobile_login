@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _fetchFeaturedLocations() async {
     final response = await http.get(Uri.parse(
-        "http://192.168.29.202:8080/mobilelogin_api/featured_locations.php"));
+        "http://192.168.29.203:8080/mobilelogin_api/featured_locations.php"));
 
     if (response.statusCode == 200) {
       final List<dynamic> locations = json.decode(response.body);
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     String categoryName,
   ) {
     String imageUrl =
-        'http://192.168.29.202:8080/mobilelogin_api/img/locations/$imagePath';
+        'http://192.168.29.203:8080/mobilelogin_api/img/locations/$imagePath';
 
     return GestureDetector(
       onTap: () {

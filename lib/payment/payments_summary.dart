@@ -23,7 +23,7 @@
 
 //   Future<void> _fetchPaymentsSummary() async {
 //     final response = await http.get(Uri.parse(
-//         'http://192.168.29.202:8080/mobilelogin_api/get_payments_summary.php?userId=${widget.userId}'));
+//         'http://192.168.29.203:8080/mobilelogin_api/get_payments_summary.php?userId=${widget.userId}'));
 
 //     if (response.statusCode == 200) {
 //       setState(() {
@@ -166,7 +166,7 @@ class _PaymentsSummaryPageState extends State<PaymentsSummaryPage> {
 
   Future<void> _fetchPaymentsSummary() async {
     final response = await http.get(Uri.parse(
-        'http://192.168.29.202:8080/mobilelogin_api/get_payments_summary.php?userId=${widget.userId}'));
+        'http://192.168.29.203:8080/mobilelogin_api/get_payments_summary.php?userId=${widget.userId}'));
 
     if (response.statusCode == 200) {
       List<dynamic> tempAccounts = json.decode(response.body);

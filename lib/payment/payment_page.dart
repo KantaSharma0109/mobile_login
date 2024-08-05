@@ -43,7 +43,7 @@ class PaymentPageState extends State<PaymentPage> {
   // Future<void> fetchQuotations() async {
   //   final response = await http.get(
   //     Uri.parse(
-  //         'http://192.168.29.202:8080/mobilelogin_api/fetch_order_data.php?userId=${widget.userId}'),
+  //         'http://192.168.29.203:8080/mobilelogin_api/fetch_order_data.php?userId=${widget.userId}'),
   //   );
 
   //   if (response.statusCode == 200) {
@@ -75,7 +75,7 @@ class PaymentPageState extends State<PaymentPage> {
   Future<void> fetchQuotations() async {
     final response = await http.get(
       Uri.parse(
-          'http://192.168.29.202:8080/mobilelogin_api/fetch_due_amount.php?userId=${widget.userId}'),
+          'http://192.168.29.203:8080/mobilelogin_api/fetch_due_amount.php?userId=${widget.userId}'),
     );
 
     if (response.statusCode == 200) {
@@ -107,7 +107,7 @@ class PaymentPageState extends State<PaymentPage> {
   // Future<void> fetchDueAmount(String campaignId) async {
   //   final response = await http.get(
   //     Uri.parse(
-  //         'http://192.168.29.202:8080/mobilelogin_api/fetch_due_amount.php?userId=${widget.userId}&campaignId=$campaignId'),
+  //         'http://192.168.29.203:8080/mobilelogin_api/fetch_due_amount.php?userId=${widget.userId}&campaignId=$campaignId'),
   //   );
 
   //   if (response.statusCode == 200) {
@@ -170,7 +170,7 @@ class PaymentPageState extends State<PaymentPage> {
     final request = http.MultipartRequest(
       'POST',
       Uri.parse(
-          'http://192.168.29.202:8080/mobilelogin_api/upload_receipt.php'),
+          'http://192.168.29.203:8080/mobilelogin_api/upload_receipt.php'),
     );
 
     request.fields['userId'] = widget.userId!;
@@ -223,15 +223,19 @@ class PaymentPageState extends State<PaymentPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        _downloadImage(context);
-                      },
-                      child: const Text(
-                        'Get QR Code for Payment',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w800,
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _downloadImage(context);
+                        },
+                        child: const Center(
+                          child: Text(
+                            'Get QR Code for Payment',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                       ),
                     ),

@@ -27,7 +27,7 @@ class QuotePageState extends State<QuotePage> {
   Future<void> fetchQuotations() async {
     final response = await http.get(
       Uri.parse(
-          'http://192.168.29.202:8080/mobilelogin_api/fetch_quatation_data.php?userId=$userId'),
+          'http://192.168.29.203:8080/mobilelogin_api/fetch_quatation_data.php?userId=$userId'),
     );
 
     if (response.statusCode == 200) {
@@ -57,7 +57,7 @@ class QuotePageState extends State<QuotePage> {
   Future<void> updateQuotationStatus(int quotationId, String status) async {
     final response = await http.post(
       Uri.parse(
-          'http://192.168.29.202:8080/mobilelogin_api/update_quotation_status.php'),
+          'http://192.168.29.203:8080/mobilelogin_api/update_quotation_status.php'),
       headers: <String, String>{
         'Content-Type': 'application/x-www-form-urlencoded',
       },

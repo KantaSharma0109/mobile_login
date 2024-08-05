@@ -167,7 +167,8 @@ class MyDrawer extends StatelessWidget {
                 style: TextStyle(color: Color.fromARGB(255, 201, 181, 1)),
               ),
               onTap: () async {
-                const url = 'https://example.com'; // Change to your app's URL
+                const url =
+                    'https://www.google.com/search?q=reting+imge&sca_esv=9267af3241730e66&sca_upv=1&sxsrf=ADLYWILd9KiQyOHAwMejpVZjMVCthr5m1A%3A1722595509723&ei=tbisZsviK6eQnesPgoT44AE&ved=0ahUKEwiLkcurkNaHAxUnSGcHHQICHhwQ4dUDCBA&uact=5&oq=reting+imge&gs_lp=Egxnd3Mtd2l6LXNlcnAiC3JldGluZyBpbWdlMgcQABiABBgNMgcQABiABBgNMgcQABiABBgNMgYQABgNGB4yCBAAGAoYDRgeMgYQABgNGB4yCBAAGA0YHhgPMggQABgFGA0YHjIIEAAYBRgNGB4yCBAAGAUYDRgeSJoVUKsFWKIScAF4AJABAJgB0gGgAcgIqgEFMC40LjK4AQPIAQD4AQGYAgagAuUHwgIKEAAYsAMY1gQYR8ICDRAAGIAEGLADGEMYigXCAhMQLhiABBiwAxhDGMcBGIoFGK8BwgIPEAAYgAQYsAMYQxiKBRgKwgILEAAYgAQYkQIYigXCAg4QABiABBiRAhixAxiKBcICBRAAGIAEwgILEC4YgAQYxwEYrwHCAgcQABiABBgKwgIIEAAYFhgKGB7CAgYQABgWGB6YAwCIBgGQBgqSBwUxLjMuMqAHxy4&sclient=gws-wiz-serp#vhid=MyjLuTYV2_4UeM&vssid=l'; // Change to your app's URL
                 if (await canLaunch(url)) {
                   await launch(url);
                 } else {

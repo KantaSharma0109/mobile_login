@@ -36,7 +36,7 @@ class LocationListPageState extends State<LocationListPage> {
 
   Future<void> _fetchLocations() async {
     final response = await http.get(Uri.parse(
-        "http://192.168.29.202:8080/mobilelogin_api/locations.php?category_id=${widget.categoryId}"));
+        "http://192.168.29.203:8080/mobilelogin_api/locations.php?category_id=${widget.categoryId}"));
 
     if (response.statusCode == 200) {
       final List<dynamic> locations = json.decode(response.body);
@@ -95,7 +95,7 @@ class LocationListPageState extends State<LocationListPage> {
                   itemCount: imagePaths.length,
                   itemBuilder: (context, index) {
                     String imageUrl =
-                        'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[index]}';
+                        'http://192.168.29.203:8080/mobilelogin_api/img/locations/${imagePaths[index]}';
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
@@ -253,7 +253,7 @@ class LocationListPageState extends State<LocationListPage> {
                                       cityName: cityName,
                                       cityId: cityId,
                                       imageUrl:
-                                          'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[0]}',
+                                          'http://192.168.29.203:8080/mobilelogin_api/uploads/locations/${imagePaths[0]}',
                                     ),
                                   );
                             });
@@ -306,7 +306,7 @@ class LocationListPageState extends State<LocationListPage> {
                         locationId: locationId,
                         userId: widget.userId,
                         imageUrl:
-                            'http://192.168.29.202:8080/mobilelogin_api/img/locations/${imagePaths[0]}',
+                            'http://192.168.29.203:8080/mobilelogin_api/uploads/locations/${imagePaths[0]}',
                       ),
                     );
                   },

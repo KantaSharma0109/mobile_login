@@ -34,7 +34,7 @@ class LocationDetailPageState extends State<LocationDetailPage> {
 
   Future<void> _fetchDetails() async {
     final response = await http.get(Uri.parse(
-        "http://192.168.29.202:8080/mobilelogin_api/details.php?location_id=${widget.locationId}"));
+        "http://192.168.29.203:8080/mobilelogin_api/details.php?location_id=${widget.locationId}"));
 
     if (response.statusCode == 200) {
       final List<dynamic> details = json.decode(response.body);
