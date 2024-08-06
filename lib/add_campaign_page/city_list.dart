@@ -29,8 +29,8 @@ class CityListPageState extends State<CityListPage> {
   }
 
   Future<void> _fetchCities() async {
-    final response = await http.get(
-        Uri.parse("http://192.168.29.203:8080/mobilelogin_api/cities.php"));
+    final response = await http.get(Uri.parse(
+        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/cities.php"));
 
     if (response.statusCode == 200) {
       List<dynamic> cities = json.decode(response.body);
@@ -54,7 +54,7 @@ class CityListPageState extends State<CityListPage> {
       _isLoadingCategories = true;
     });
     final response = await http.get(Uri.parse(
-        "http://192.168.29.203:8080/mobilelogin_api/categories.php?city_id=$cityId"));
+        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/categories.php?city_id=$cityId"));
 
     if (response.statusCode == 200) {
       List<dynamic> categories = json.decode(response.body);

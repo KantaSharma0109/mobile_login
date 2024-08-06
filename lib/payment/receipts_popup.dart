@@ -9,7 +9,7 @@ class ReceiptsPopup extends StatelessWidget {
 
   Future<List<dynamic>> _fetchReceipts() async {
     final response = await http.get(Uri.parse(
-        'http://192.168.29.203:8080/mobilelogin_api/get_receipts.php?campaignId=$campaignId'));
+        'http://192.168.29.203:8080/admin-panel/mobilelogin_api/get_receipts.php?campaignId=$campaignId'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);

@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage>
   Future<void> checkNumberExists(String phoneNumber) async {
     try {
       String uri =
-          "http://192.168.29.203:8080/mobilelogin_api/check_number.php";
+          "http://192.168.29.203:8080/admin-panel/mobilelogin_api/check_number.php";
       var res = await http.post(Uri.parse(uri), body: {
         "mobile_number": phoneNumber,
       });

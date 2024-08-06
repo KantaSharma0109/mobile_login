@@ -21,7 +21,7 @@ class CampaignListPage extends StatelessWidget {
 
   Future<List<dynamic>> _fetchLocations(int? categoryId) async {
     final response = await http.get(Uri.parse(
-        "http://192.168.29.203:8080/mobilelogin_api/locations.php?category_id=$categoryId"));
+        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/locations.php?category_id=$categoryId"));
 
     if (response.statusCode == 200) {
       final List<dynamic> locations = json.decode(response.body);

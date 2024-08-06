@@ -75,7 +75,7 @@ class PaymentPageState extends State<PaymentPage> {
   Future<void> fetchQuotations() async {
     final response = await http.get(
       Uri.parse(
-          'http://192.168.29.203:8080/mobilelogin_api/fetch_due_amount.php?userId=${widget.userId}'),
+          'http://192.168.29.203:8080/admin-panel/mobilelogin_api/fetch_due_amount.php?userId=${widget.userId}'),
     );
 
     if (response.statusCode == 200) {
@@ -170,7 +170,7 @@ class PaymentPageState extends State<PaymentPage> {
     final request = http.MultipartRequest(
       'POST',
       Uri.parse(
-          'http://192.168.29.203:8080/mobilelogin_api/upload_receipt.php'),
+          'http://192.168.29.203:8080/admin-panel/mobilelogin_api/upload_receipt.php'),
     );
 
     request.fields['userId'] = widget.userId!;

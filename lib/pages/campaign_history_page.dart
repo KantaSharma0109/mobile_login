@@ -24,7 +24,7 @@ class CampaignHistoryPageState extends State<CampaignHistoryPage> {
   Future<void> fetchCampaignHistory() async {
     final response = await http.get(
       Uri.parse(
-          'http://192.168.29.203:8080/mobilelogin_api/fetch_campaign_history.php?userId=${widget.userId}'),
+          'http://192.168.29.203:8080/admin-panel/mobilelogin_api/fetch_campaign_history.php?userId=${widget.userId}'),
     );
 
     if (response.statusCode == 200) {
