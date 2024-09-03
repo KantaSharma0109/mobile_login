@@ -26,7 +26,7 @@ class AdvertisingStructure {
     return AdvertisingStructure(
       title: json['title'],
       subtitle: json['subtitle'],
-      imagePath: json['location_image'],
+      imagePath: json['img'],
       categoryId: json['id'],
       locationId: json['id'],
       flexSelected: json['flexSelected'],
@@ -41,7 +41,7 @@ class AdvertisingStructure {
     return {
       'title': title,
       'subtitle': subtitle,
-      'location_image': imagePath,
+      'img': imagePath,
       'categoryId': categoryId,
       'locationId': locationId,
       'flexSelected': flexSelected,

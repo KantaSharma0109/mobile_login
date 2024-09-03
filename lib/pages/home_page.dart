@@ -31,8 +31,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchFeaturedLocations() async {
-    final response = await http.get(Uri.parse(
-        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/featured_locations.php"));
+    final response = await http
+        .get(Uri.parse("https://snpublicity.com/api/featured_locations.php"));
 
     if (response.statusCode == 200) {
       final List<dynamic> locations = json.decode(response.body);
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     String categoryName,
   ) {
     String imageUrl =
-        'http://192.168.29.203:8080/admin-panel/uploads/locations/$imagePath';
+        'https://snpublicity.com/admin/uploads/locations/$imagePath';
 
     return GestureDetector(
       onTap: () {
@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                         location['location_name'] ?? '',
                         location['city_name'] ?? '',
                         location['location_name'] ?? '',
-                        location['location_image'] ?? '',
+                        location['img'] ?? '',
                         location['city_id'], // Pass city ID
                         location['category_id'],
                         location['id'],

@@ -26,8 +26,8 @@ class _LoginPageState extends State<LoginPage>
 
   Future<void> checkNumberExists(String phoneNumber) async {
     try {
-      String uri =
-          "http://192.168.29.203:8080/admin-panel/mobilelogin_api/check_number.php";
+      String uri = "https://snpublicity.com/api/check_number.php";
+
       var res = await http.post(Uri.parse(uri), body: {
         "mobile_number": phoneNumber,
       });
@@ -39,12 +39,11 @@ class _LoginPageState extends State<LoginPage>
           _userId = response["user_id"];
           _userName =
               response["user_name"]; // Capture user name // Capture user ID
-          // Save the user ID locally
+
+          // Save the user ID and name locally
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('user_id', _userId);
-
           await prefs.setString('user_name', _userName);
-          print(response);
 
           sendOtp();
         } else {

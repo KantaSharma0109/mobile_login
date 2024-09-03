@@ -29,9 +29,9 @@ class CityListPageState extends State<CityListPage> {
   }
 
   Future<void> _fetchCities() async {
-    final response = await http.get(Uri.parse(
-        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/cities.php"));
-
+    final response =
+        await http.get(Uri.parse("https://snpublicity.com/api/cities.php"));
+    print('Response body: ${response.body}');
     if (response.statusCode == 200) {
       List<dynamic> cities = json.decode(response.body);
       setState(() {
@@ -39,12 +39,16 @@ class CityListPageState extends State<CityListPage> {
             .map((city) => {
                   'id': int.parse(city['id']), // Ensure id is an integer
                   'city_name': city['city_name'],
-                  'city_image': city['city_image'], // Correct image URL
+                  'city_image': city['city_img'] ?? '', // Use 'city_img' key
                 })
             .toList();
         _isLoading = false;
+        _cities.forEach((city) {
+          print('City Name: ${city['city_name']}');
+        });
       });
     } else {
+      print("error");
       throw Exception('Failed to load cities');
     }
   }
@@ -54,7 +58,7 @@ class CityListPageState extends State<CityListPage> {
       _isLoadingCategories = true;
     });
     final response = await http.get(Uri.parse(
-        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/categories.php?city_id=$cityId"));
+        "https://snpublicity.com/api/categories.php?city_id=$cityId"));
 
     if (response.statusCode == 200) {
       List<dynamic> categories = json.decode(response.body);
@@ -115,30 +119,15 @@ class CityListPageState extends State<CityListPage> {
       appBar: _selectedCityId != null
           ? AppBar(
               automaticallyImplyLeading: false,
-              // leading: IconButton(
-              //   padding: EdgeInsets.zero,
-              //   icon: const Icon(Icons.arrow_back),
-              //   onPressed: () {
-              //     setState(() {
-              //       _selectedCityId = null;
-              //       _categories = [];
-              //     });
-              //   },
-              // ),
               title: _selectedCityId != null && !_isLoadingCategories
-                  ?
-                  // Expanded(
-                  // child:
-                  SingleChildScrollView(
+                  ? SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-
                       child: Row(
                         children: _categories.map((category) {
                           return _buildCategoryItem(context,
                               category['categoryname'], category['id']);
                         }).toList(),
                       ),
-                      // ),
                     )
                   : null,
             )
@@ -177,7 +166,7 @@ class CityListPageState extends State<CityListPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                city['city_name'],
+                                city['city_name'] ?? 'Unknown City',
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -206,7 +195,7 @@ class CityListPageState extends State<CityListPage> {
                                     borderRadius: BorderRadius.circular(
                                         5.0), // Apply the border radius to the image
                                     child: Image.network(
-                                      city['city_image'],
+                                      city['city_image'] ?? '',
                                       fit: BoxFit.cover,
                                       width: double.infinity,
                                       errorBuilder:

@@ -1,4 +1,4 @@
-package com.example.mobile_login
+package com.example.mobile_login;
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -54,7 +54,7 @@ class LocationListPageState extends State<LocationListPage> {
   // }
   Future<void> _fetchLocations() async {
     final response = await http.get(Uri.parse(
-        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/locations.php?category_id=${widget.categoryId}"));
+        "https://snpublicity.com/api/locations.php?category_id=${widget.categoryId}"));
 
     if (response.statusCode == 200) {
       print("Response: ${response.body}"); // Print the response for debugging
@@ -114,7 +114,7 @@ class LocationListPageState extends State<LocationListPage> {
                   itemCount: imagePaths.length,
                   itemBuilder: (context, index) {
                     String imageUrl =
-                        'http://192.168.29.203:8080/admin-panel/${imagePaths[index]}';
+                        'https://snpublicity.com/admin/${imagePaths[index]}';
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
@@ -272,7 +272,7 @@ class LocationListPageState extends State<LocationListPage> {
                                       cityName: cityName,
                                       cityId: cityId,
                                       imageUrl:
-                                          'http://192.168.29.203:8080/admin-panel/${imagePaths[0]}',
+                                          'https://snpublicity.com/admin/${imagePaths[0]}',
                                     ),
                                   );
                             });
@@ -325,7 +325,7 @@ class LocationListPageState extends State<LocationListPage> {
                         locationId: locationId,
                         userId: widget.userId,
                         imageUrl:
-                            'http://192.168.29.203:8080/admin-panel/${imagePaths[0]}',
+                            'https://snpublicity.com/admin/${imagePaths[0]}',
                       ),
                     );
                   },
@@ -366,6 +366,31 @@ class LocationListPageState extends State<LocationListPage> {
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _locations.length,
+              // itemBuilder: (context, index) {
+              //   final location = _locations[index];
+              //   final locationId = int.tryParse(location['id'].toString()) ?? 0;
+              //   final cityId =
+              //       int.tryParse(location['city_id'].toString()) ?? 0;
+              //   final availableStatus =
+              //       int.tryParse(location['available_status'].toString()) ?? 0;
+              //   final cityName = location['city_name'] ?? '';
+              //   final endDate = location['end_date'] ?? '';
+              //   final List<String> imagePaths =
+              //       List<String>.from(location['img'] ?? []);
+
+              //   return _buildLocationBox(
+              //     context,
+              //     widget.categoryName,
+              //     location['location_name'] ?? '',
+              //     // location['img'] ?? '',
+              //     imagePaths,
+              //     locationId,
+              //     cityName,
+              //     cityId,
+              //     availableStatus,
+              //     endDate,
+              //   );
+              // },
               itemBuilder: (context, index) {
                 final location = _locations[index];
                 final locationId = int.tryParse(location['id'].toString()) ?? 0;
@@ -374,15 +399,17 @@ class LocationListPageState extends State<LocationListPage> {
                 final availableStatus =
                     int.tryParse(location['available_status'].toString()) ?? 0;
                 final cityName = location['city_name'] ?? '';
-                final endDate = location['end_date'] ?? '';
+                final title = location['location_name'] ?? '';
+                final endDate = location['end_date'] != null
+                    ? location['end_date'].toString()
+                    : null;
                 final List<String> imagePaths =
                     List<String>.from(location['location_images'] ?? []);
 
                 return _buildLocationBox(
                   context,
-                  widget.categoryName,
-                  location['location_name'] ?? '',
-                  // location['location_image'] ?? '',
+                  title,
+                  title, // Using the same title for both title and subtitle
                   imagePaths,
                   locationId,
                   cityName,

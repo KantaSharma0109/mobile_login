@@ -24,7 +24,7 @@ class ProfilePageState extends State<ProfilePage> {
   Future<UserProfile> _fetchUserProfile() async {
     final response = await http.get(
       Uri.parse(
-        'http://192.168.29.203:8080/admin-panel/mobilelogin_api/fetch_user_profile.php?userId=${widget.userId}',
+        'https://snpublicity.com/api/fetch_user_profile.php?userId=${widget.userId}',
       ),
     );
 
@@ -119,23 +119,26 @@ class ProfilePageState extends State<ProfilePage> {
           children: [
             Icon(icon, color: Colors.black),
             const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    style: const TextStyle(fontSize: 16),
+                    overflow: TextOverflow.ellipsis, // Handle overflow text
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -82,7 +82,8 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 height: 55,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Colors.grey),
+                  border: Border.all(
+                      width: 1, color: const Color.fromARGB(255, 20, 12, 12)),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(

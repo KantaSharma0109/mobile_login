@@ -97,8 +97,7 @@ class CampaignDetailPageState extends State<CampaignDetailPage> {
   }
 
   Future<void> _getQuote() async {
-    final url = Uri.parse(
-        "http://192.168.29.203:8080/admin-panel/mobilelogin_api/quote_insert.php");
+    final url = Uri.parse("https://snpublicity.com/api/quote_insert.php");
     final campaignId = generateCampaignId();
 
     for (int i = 0; i < campaignDetails.length; i++) {
